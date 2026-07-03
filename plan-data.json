@@ -1,0 +1,256 @@
+{
+  "strategicCareerMapping": {
+    "contextProfile": {
+      "candidate": "Melika Safaei",
+      "currentRoles": [
+        "Curatorial Intern (AHA Collective)",
+        "Journalist Intern (CivilNet)",
+        "Crisis Comms Specialist (Digikala)"
+      ],
+      "previousExperience": [
+        "UN Communications Assistant",
+        "PGt Agency PR Executive",
+        "Herfeh: Honarmand Content Creator"
+      ],
+      "education": "BA in Cultural Arts Management (Soore International University)",
+      "startingPoint": "B2 English, Foundational/Intermediate Art History, High-Level Digital Skills (Blender, Adobe Suite, Canva).",
+      "targetGoal": "C2 English Mastery, University-Level Global Art History.",
+      "timeCommitment": {
+        "durationMonths": 6,
+        "daysPerWeek": 5,
+        "hoursPerDay": 6,
+        "totalHours": "~720"
+      }
+    },
+    "careerPaths": [
+      {
+        "id": "path_1",
+        "title": "Cultural Journalist & Art Critic",
+        "description": "Building on your current journalism internship at CivilNet and content creation at Herfeh: Honarmand, this path refines your voice for top-tier international arts publications. You will act as the intellectual conduit between the art world and the public, analyzing contemporary exhibitions and authoring persuasive essays.",
+        "overallMatchScore": 95,
+        "skillMatrix": [
+          {
+            "skill": "English Writing & Rhetoric",
+            "necessity": "Mandatory",
+            "competentB2": "50 hrs",
+            "advancedC1": "150 hrs",
+            "outstandingC2": "300 hrs",
+            "supportedRoles": ["Critic", "Curator", "Comms"],
+            "score": "10/10"
+          },
+          {
+            "skill": "Contemporary Art Theory",
+            "necessity": "Mandatory",
+            "competentB2": "40 hrs",
+            "advancedC1": "100 hrs",
+            "outstandingC2": "200 hrs",
+            "supportedRoles": ["Critic", "Curator"],
+            "score": "9/10"
+          },
+          {
+            "skill": "Investigative Journalism",
+            "necessity": "Highly Valued",
+            "competentB2": "30 hrs",
+            "advancedC1": "80 hrs",
+            "outstandingC2": "150 hrs",
+            "supportedRoles": ["Critic"],
+            "score": "8/10"
+          },
+          {
+            "skill": "SEO & Digital Formatting",
+            "necessity": "Auxiliary",
+            "competentB2": "10 hrs",
+            "advancedC1": "30 hrs",
+            "outstandingC2": "50 hrs",
+            "supportedRoles": ["Critic", "Comms"],
+            "score": "6/10"
+          }
+        ]
+      },
+      {
+        "id": "path_2",
+        "title": "International Curator & Exhibition Manager",
+        "description": "Synthesizing your BA in Cultural Arts Management, your UN exhibition experience (\"Beyond a Canvas\"), and AHA Collective curatorial internship. This role focuses on designing pedagogical architectures and cross-cultural exhibits (like the Araks Project).",
+        "overallMatchScore": 92,
+        "skillMatrix": [
+          {
+            "skill": "Global Art History Synthesis",
+            "necessity": "Mandatory",
+            "competentB2": "60 hrs",
+            "advancedC1": "160 hrs",
+            "outstandingC2": "250 hrs",
+            "supportedRoles": ["Curator", "Critic"],
+            "score": "10/10"
+          },
+          {
+            "skill": "Pedagogical/Academic English",
+            "necessity": "Mandatory",
+            "competentB2": "50 hrs",
+            "advancedC1": "150 hrs",
+            "outstandingC2": "280 hrs",
+            "supportedRoles": ["Curator", "Critic"],
+            "score": "9/10"
+          },
+          {
+            "skill": "Spatial Design (Blender)",
+            "necessity": "Highly Valued",
+            "competentB2": "Already Competent",
+            "advancedC1": "30 hrs",
+            "outstandingC2": "80 hrs",
+            "supportedRoles": ["Curator"],
+            "score": "8/10"
+          },
+          {
+            "skill": "Grant Writing & Logistics",
+            "necessity": "Auxiliary",
+            "competentB2": "30 hrs",
+            "advancedC1": "80 hrs",
+            "outstandingC2": "140 hrs",
+            "supportedRoles": ["Curator", "Comms"],
+            "score": "7/10"
+          }
+        ]
+      },
+      {
+        "id": "path_3",
+        "title": "Director of Cultural Communications",
+        "description": "Fusing your intense Crisis Communication experience at Digikala and PR execution at PGt Agency with the arts sector. Leading international outreach, digital strategy, and reputation management for major museums or cultural NGOs.",
+        "overallMatchScore": 90,
+        "skillMatrix": [
+          {
+            "skill": "Crisis PR & Strategy",
+            "necessity": "Mandatory",
+            "competentB2": "Already Advanced",
+            "advancedC1": "40 hrs",
+            "outstandingC2": "100 hrs",
+            "supportedRoles": ["Comms"],
+            "score": "10/10"
+          },
+          {
+            "skill": "Diplomatic/Corporate English",
+            "necessity": "Mandatory",
+            "competentB2": "50 hrs",
+            "advancedC1": "140 hrs",
+            "outstandingC2": "260 hrs",
+            "supportedRoles": ["Comms", "Curator"],
+            "score": "9/10"
+          },
+          {
+            "skill": "Cross-Cultural Media Relations",
+            "necessity": "Highly Valued",
+            "competentB2": "30 hrs",
+            "advancedC1": "90 hrs",
+            "outstandingC2": "150 hrs",
+            "supportedRoles": ["Comms", "Critic"],
+            "score": "8/10"
+          },
+          {
+            "skill": "Data Analytics & Reporting",
+            "necessity": "Auxiliary",
+            "competentB2": "20 hrs",
+            "advancedC1": "50 hrs",
+            "outstandingC2": "90 hrs",
+            "supportedRoles": ["Comms"],
+            "score": "6/10"
+          }
+        ]
+      }
+    ],
+    "masterCurriculum": {
+      "dailyOperationalCadence": [
+        {
+          "timeWindow": "09:00 - 10:30",
+          "duration": "1.5h",
+          "category": "Structural Mechanics (English)",
+          "description": "Grammar drills, vocabulary expansion, active syntax mapping. Transitioning B2 -> C1 -> C2."
+        },
+        {
+          "timeWindow": "10:30 - 12:30",
+          "duration": "2.0h",
+          "category": "Cultural History Acquisition",
+          "description": "Reading core art history texts, taking visual notes."
+        },
+        {
+          "timeWindow": "13:30 - 15:00",
+          "duration": "1.5h",
+          "category": "Literary Immersion",
+          "description": "High-level English reading to absorb natural rhythm, advanced phrasing, and diplomatic tone."
+        },
+        {
+          "timeWindow": "15:00 - 16:00",
+          "duration": "1.0h",
+          "category": "Output & Synthesis",
+          "description": "Writing essays, critiques, or press releases based on the day's intake."
+        }
+      ],
+      "months": [
+        {
+          "month": 1,
+          "title": "Antiquity, Foundations, and The B2-C1 Bridge",
+          "goal": "Solidify C1 grammar foundations; understand the basics of Western/Global art up to the Middle Ages.",
+          "focusAreas": {
+            "englishMechanics": "Destination B2/C1 by Malcolm Mann. Focus on eliminating B2 errors, mastering phrasal verbs, and complex conditionals. (1 unit/day).",
+            "artHistory": "The Story of Art by E.H. Gombrich (Chapters 1-10). The Short Story of Art by Susie Hodge (for quick visual referencing).",
+            "literature": "Animal Farm & 1984 by George Orwell (Clear, powerful syntax)."
+          },
+          "dailyTask": "Read 25 pages of Gombrich. Write a 300-word daily summary of the art era using 5 new B2/C1 vocabulary words."
+        },
+        {
+          "month": 2,
+          "title": "The Renaissance & Sprawling Ambition",
+          "goal": "Reach solid C1 writing fluency; map the explosion of the Early to High Renaissance.",
+          "focusAreas": {
+            "englishMechanics": "English Collocations in Use: Advanced (Cambridge). Focus on natural word pairings to sound less \"translated.\"",
+            "artHistory": "Ways of Seeing by John Berger (to introduce critical, non-boring analysis). SmartHistory online modules (Renaissance).",
+            "literature": "The Picture of Dorian Gray by Oscar Wilde (Rich, aesthetic vocabulary)."
+          },
+          "dailyTask": "Read 1 chapter of Berger or 30 pages of literature. Write a 500-word critical comparison of two Renaissance pieces (e.g., Da Vinci vs. Michelangelo)."
+        },
+        {
+          "month": 3,
+          "title": "Baroque Drama & The C1-C2 Transition",
+          "goal": "Begin C2 preparation (nuance, tone, sophisticated inversions); study Baroque, Rococo, and Romanticism.",
+          "focusAreas": {
+            "englishMechanics": "Destination C1 & C2. Focus on inversions, cleft sentences, and advanced passive structures.",
+            "artHistory": "The Story of Art (Chapters 15-22). Caravaggio: A Life Sacred and Profane by Andrew Graham-Dixon (Narrative history).",
+            "literature": "Frankenstein by Mary Shelley or Great Expectations by Charles Dickens."
+          },
+          "dailyTask": "Read 30 pages of narrative history/literature. Draft a weekly \"Crisis PR statement\" for a controversial historical art event (leveraging your Digikala background)."
+        },
+        {
+          "month": 4,
+          "title": "Impressionism, Modernism, and Fragmentation",
+          "goal": "Deepen C2 idiomatic knowledge; understand the break from tradition in the 19th/20th centuries.",
+          "focusAreas": {
+            "englishMechanics": "Objective Proficiency (C2) (Cambridge). Focus on idiomatic expressions, nuanced adverbs, and tone shifting.",
+            "artHistory": "The Private Lives of the Impressionists by Sue Roe. Shock of the New by Robert Hughes (Incredibly engaging, university-level but highly entertaining).",
+            "literature": "The Great Gatsby by F. Scott Fitzgerald and essays by Joan Didion."
+          },
+          "dailyTask": "Read 35 pages of Hughes/literature. Write a 600-word journalistic exhibition review of a Modernist movement, acting as a CivilNet correspondent."
+        },
+        {
+          "month": 5,
+          "title": "Contemporary Synthesis & The Global Stage",
+          "goal": "Near-native professional fluency; grasp post-war, conceptual, and contemporary global art (including Middle Eastern/Armenian modern art).",
+          "focusAreas": {
+            "englishMechanics": "Advanced academic and diplomatic writing. Reading high-level publications (The New Yorker, Artforum, e-flux).",
+            "artHistory": "Art Since 1900 (Foster, Krauss, et al.) - selective reading. Research focus on Iranian/Armenian contemporary intersections.",
+            "literature": "White Teeth by Zadie Smith or contemporary Booker Prize winners."
+          },
+          "dailyTask": "Analyze 2 articles from Artforum daily. Write an 800-word curatorial proposal for an exhibition combining Armenian weavers and contemporary art (building on your current CivilNet article)."
+        },
+        {
+          "month": 6,
+          "title": "Capstone Output & C2 Mastery",
+          "goal": "Finalize C2 mastery through massive output; build a professional portfolio bridging PR, Journalism, and Curation.",
+          "focusAreas": {
+            "englishMechanics": "Polish and refine. Take Mock C2 Proficiency exams (CPE) for objective benchmarking.",
+            "artHistory": "Focus strictly on independent research for your capstone project.",
+            "literature": "Dense, philosophical texts (e.g., essays by Susan Sontag, On Photography)."
+          },
+          "dailyTask": "Spend 4 hours daily researching, drafting, and editing a 5,000-word capstone project (e.g., A comprehensive international exhibition catalog, complete with PR strategy and critical essays)."
+        }
+      ]
+    }
+  }
+}

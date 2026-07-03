@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..600&display=swap" rel="stylesheet" />
+  <style>
+    body { margin: 0; background: #fbf8f2; color: #211b14; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+    * { box-sizing: border-box; }
+    button { font-family: inherit; }
+  </style>
+</helmet>
+
+<sc-if value="{{ ready }}" hint-placeholder-val="{{ true }}">
+  <div style="max-width:520px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;gap:18px;padding:20px 18px 100px">
+
+    <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#8a7f70;font-weight:600">{{ dateLabel }}</div>
+        <h1 style="margin:0;font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:29px;line-height:1.08">{{ viewTitle }}</h1>
+        <div style="font-size:12.5px;color:#8a7f70">{{ planPosition }}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;padding-top:2px">
+        <span style="background:{{ statusBg }};color:{{ statusFg }};font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:999px;white-space:nowrap">{{ statusLabel }}</span>
+        <span style="display:flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;color:oklch(0.55 0.16 40);white-space:nowrap">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="oklch(0.65 0.18 45)" stroke="oklch(0.65 0.18 45)" stroke-width="1"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+          {{ streakLabel }}
+        </span>
+      </div>
+    </header>
+
+    <sc-if value="{{ tabIsToday }}" hint-placeholder-val="{{ true }}">
+      <section style="display:flex;flex-direction:column;gap:13px">
+
+        <div style="background:#fffdf8;border:1px solid #eadfce;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px">
+            <span style="font-weight:700;font-size:14px">Today's hours</span>
+            <span style="font-size:13px;color:#8a7f70"><b style="color:#211b14">{{ todayHoursLabel }}</b> of {{ goalLabel }}</span>
+          </div>
+          <div style="display:flex;height:12px;border-radius:999px;background:#efe7d9;overflow:hidden">
+            <sc-for list="{{ segs }}" as="sg" hint-placeholder-count="4">
+              <div style="height:100%;width:{{ sg.w }}%;background:{{ sg.color }}"></div>
+            </sc-for>
+          </div>
+          <div style="font-size:12.5px;color:#8a7f70;line-height:1.4">{{ monthLine }}</div>
+        </div>
+
+        <sc-if value="{{ isRestDay }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#f3ecdf;border:1px dashed #d8ccb6;border-radius:14px;padding:14px 16px;font-size:13px;color:#6b6154;line-height:1.5">Rest day — no targets scheduled. You can still log hours below if you choose to work.</div>
+        </sc-if>
+
+        <div style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#8a7f70;font-weight:700;margin-top:2px">Today's targets · tap or drag to log</div>
+
+        <sc-for list="{{ blocks }}" as="b" hint-placeholder-count="4">
+          <div style="background:{{ b.cardBg }};border:1px solid {{ b.cardBorder }};border-radius:16px;padding:14px 14px 13px;display:flex;flex-direction:column;gap:10px;margin-bottom:11px">
+            <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start">
+              <div style="display:flex;gap:10px;align-items:flex-start">
+                <div style="flex:none;width:36px;height:36px;border-radius:11px;background:{{ b.chipBg }};color:#fff;display:flex;align-items:center;justify-content:center">
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{ b.icon }}"></path></svg>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:2px">
+                  <span style="font-weight:700;font-size:14.5px;line-height:1.25">{{ b.cat }}</span>
+                  <span style="font-size:12px;color:#8a7f70">{{ b.time }}</span>
+                </div>
+              </div>
+              <button onClick="{{ b.markFull }}" style="flex:none;border:1px solid {{ b.doneBorder }};background:{{ b.doneBg }};color:{{ b.doneFg }};border-radius:999px;font-size:11.5px;font-weight:700;padding:7px 12px;cursor:pointer;min-height:32px">{{ b.doneLabel }}</button>
+            </div>
+            <div onPointerDown="{{ b.onDown }}" onPointerMove="{{ b.onMove }}" onPointerUp="{{ b.onUp }}" onPointerCancel="{{ b.onUp }}" style="touch-action:none;user-select:none;-webkit-user-select:none;position:relative;height:46px;border-radius:12px;background:{{ b.trackBg }};overflow:hidden;cursor:ew-resize">
+              <div style="position:absolute;top:0;bottom:0;left:0;width:{{ b.fillPct }}%;background:{{ b.fillColor }}"></div>
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 13px;font-size:13px;font-weight:700;color:#3d3428;pointer-events:none">
+                <span>{{ b.loggedLabel }}</span>
+                <span style="font-weight:500;color:#7d7264">{{ b.plannedLabel }} planned</span>
+              </div>
+            </div>
+            <div style="font-size:12px;color:#8a7f70;line-height:1.45">{{ b.desc }}</div>
+          </div>
+        </sc-for>
+
+        <div onClick="{{ toggleTask }}" style="background:{{ taskBg }};border:1px solid {{ taskBorder }};border-radius:16px;padding:16px;cursor:pointer;display:flex;gap:12px;align-items:flex-start">
+          <div style="flex:none;width:24px;height:24px;border-radius:8px;border:2px solid {{ taskCheckBorder }};background:{{ taskCheckBg }};display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:800;margin-top:2px">{{ taskCheckMark }}</div>
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <span style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:700;color:oklch(0.5 0.1 80)">Daily deliverable · tap when done</span>
+            <span style="font-family:'Newsreader',Georgia,serif;font-size:16px;line-height:1.45">{{ dailyTask }}</span>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ tabIsJourney }}" hint-placeholder-val="{{ false }}">
+      <section style="display:flex;flex-direction:column;gap:16px">
+        <div style="background:#fffdf8;border:1px solid #eadfce;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px">
+            <span style="font-weight:700;font-size:14px">Whole plan</span>
+            <span style="font-size:13px;color:#8a7f70"><b style="color:#211b14">{{ totLoggedLabel }}</b> of {{ totPlannedLabel }}</span>
+          </div>
+          <div style="height:10px;border-radius:999px;background:#efe7d9;overflow:hidden">
+            <div style="height:100%;width:{{ totPct }}%;border-radius:999px;background:linear-gradient(90deg,oklch(0.6 0.15 250),oklch(0.6 0.15 40))"></div>
+          </div>
+          <div style="font-size:12.5px;color:#8a7f70;line-height:1.5">Destination: {{ targetGoal }}</div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ months }}" as="m" hint-placeholder-count="6">
+            <div style="display:flex;gap:14px">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:0">
+                <div style="flex:none;width:40px;height:40px;border-radius:50%;background:{{ m.nodeBg }};color:{{ m.nodeFg }};border:2px solid {{ m.nodeBorder }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;font-family:'Newsreader',Georgia,serif">{{ m.nodeLabel }}</div>
+                <sc-if value="{{ m.showLine }}" hint-placeholder-val="{{ true }}">
+                  <div style="width:2px;flex:1;background:#e6dbc8;min-height:16px"></div>
+                </sc-if>
+              </div>
+              <div style="flex:1;padding:1px 0 22px;display:flex;flex-direction:column;gap:6px">
+                <span style="font-weight:700;font-size:14.5px;line-height:1.3;color:{{ m.titleColor }}">{{ m.title }}</span>
+                <span style="font-size:11.5px;color:#8a7f70">{{ m.range }} · {{ m.loggedLabel }} of {{ m.plannedLabel }} logged</span>
+                <div style="height:7px;border-radius:999px;background:#efe7d9;overflow:hidden;max-width:280px">
+                  <div style="height:100%;width:{{ m.pct }}%;border-radius:999px;background:{{ m.barColor }}"></div>
+                </div>
+                <sc-if value="{{ m.isCurrent }}" hint-placeholder-val="{{ false }}">
+                  <div style="background:#fffdf8;border:1px solid #eadfce;border-radius:12px;padding:12px 13px;display:flex;flex-direction:column;gap:8px;margin-top:4px">
+                    <div style="font-size:12.5px;color:#4a3f31;line-height:1.5">{{ m.goal }}</div>
+                    <sc-for list="{{ m.focus }}" as="f" hint-placeholder-count="3">
+                      <div style="display:flex;gap:8px;font-size:12px;line-height:1.5">
+                        <span style="flex:none;font-weight:700;color:{{ f.color }};min-width:80px">{{ f.k }}</span>
+                        <span style="color:#6b6154">{{ f.v }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ tabIsPaths }}" hint-placeholder-val="{{ false }}">
+      <section style="display:flex;flex-direction:column;gap:14px">
+        <p style="margin:0;font-size:13px;color:#6b6154;line-height:1.55">Three destinations, one curriculum. The hours you log flow into the skills each path needs — ticks mark the B2 and C1 milestones on the way to C2.</p>
+        <sc-for list="{{ paths }}" as="p" hint-placeholder-count="3">
+          <div style="background:#fffdf8;border:1px solid {{ p.border }};border-top:4px solid {{ p.accent }};border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px;margin-bottom:2px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+              <h2 style="margin:0;font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:18.5px;line-height:1.25">{{ p.title }}</h2>
+              <span style="flex:none;background:{{ p.accent }};color:#fff;font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px">{{ p.scoreLabel }}</span>
+            </div>
+            <p style="margin:0;font-size:12.5px;color:#8a7f70;line-height:1.55">{{ p.description }}</p>
+            <sc-for list="{{ p.skills }}" as="s" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;gap:5px;padding-top:9px">
+                <div style="display:flex;justify-content:space-between;gap:8px;font-size:12.5px;align-items:baseline">
+                  <span style="font-weight:600;line-height:1.3">{{ s.name }}</span>
+                  <span style="color:#8a7f70;white-space:nowrap;font-size:11.5px">{{ s.invested }} · {{ s.levelLabel }}</span>
+                </div>
+                <div style="position:relative;height:8px;border-radius:999px;background:#efe7d9">
+                  <div style="position:absolute;top:0;bottom:0;left:0;width:{{ s.fill }}%;border-radius:999px;background:{{ s.barColor }}"></div>
+                  <sc-if value="{{ s.hasTickB2 }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:absolute;top:-2px;bottom:-2px;left:{{ s.tickB2 }}%;width:2px;background:#cbbfa8"></div>
+                  </sc-if>
+                  <sc-if value="{{ s.hasTickC1 }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:absolute;top:-2px;bottom:-2px;left:{{ s.tickC1 }}%;width:2px;background:#cbbfa8"></div>
+                  </sc-if>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:10.5px;color:#a29684">
+                  <span>{{ s.necessity }}</span>
+                  <span>{{ s.targetLabel }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ tabIsStats }}" hint-placeholder-val="{{ false }}">
+      <section style="display:flex;flex-direction:column;gap:14px">
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <sc-for list="{{ rings }}" as="r" hint-placeholder-count="4">
+            <div style="background:{{ r.cardBg }};border:1px solid {{ r.cardBorder }};border-radius:16px;padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:8px">
+              <div style="width:92px;height:92px;border-radius:50%;background:conic-gradient({{ r.color }} {{ r.deg }}deg, rgba(0,0,0,0.07) 0deg);display:flex;align-items:center;justify-content:center">
+                <div style="width:70px;height:70px;border-radius:50%;background:#fffdf8;display:flex;align-items:center;justify-content:center">
+                  <span style="font-weight:800;font-size:17px;color:{{ r.color }}">{{ r.pctLabel }}</span>
+                </div>
+              </div>
+              <span style="display:flex;align-items:center;gap:5px;font-weight:700;font-size:13px;color:{{ r.color }}">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{ r.icon }}"></path></svg>
+                {{ r.label }}
+              </span>
+              <span style="font-size:11.5px;color:#8a7f70;text-align:center">{{ r.sub }}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="background:#fffdf8;border:1px solid #eadfce;border-radius:16px;padding:6px 16px">
+          <sc-for list="{{ paceRows }}" as="row" hint-placeholder-count="3">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f3ecdf">
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <span style="font-weight:600;font-size:13px">{{ row.label }}</span>
+                <span style="font-size:11.5px;color:#8a7f70">{{ row.detail }}</span>
+              </div>
+              <span style="flex:none;background:{{ row.bg }};color:{{ row.fg }};font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px">{{ row.status }}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="background:#fffdf8;border:1px solid #eadfce;border-radius:16px;padding:6px 16px">
+          <sc-for list="{{ factRows }}" as="f" hint-placeholder-count="5">
+            <div style="display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #f3ecdf;font-size:13px">
+              <span style="color:#8a7f70">{{ f.k }}</span>
+              <span style="font-weight:600;text-align:right">{{ f.v }}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:flex;gap:10px">
+          <button onClick="{{ onSeed }}" style="flex:1;border:1px solid #d8ccb6;background:#fffdf8;color:#4a3f31;border-radius:12px;font-size:12.5px;font-weight:700;padding:12px 8px;cursor:pointer">Load demo history</button>
+          <button onClick="{{ onReset }}" style="flex:1;border:1px solid oklch(0.8 0.07 28);background:#fffdf8;color:oklch(0.45 0.14 28);border-radius:12px;font-size:12.5px;font-weight:700;padding:12px 8px;cursor:pointer">Reset all data</button>
+        </div>
+
+        <div style="display:flex;gap:10px">
+          <a href="desktop.html" style="flex:1;text-align:center;font-size:12.5px;font-weight:600;color:#4a3f31;text-decoration:none;border:1px solid #d8ccb6;border-radius:12px;padding:12px">Desktop version →</a>
+          
+        </div>
+      </section>
+    </sc-if>
+
+  </div>
+
+  <nav style="position:fixed;left:0;right:0;bottom:0;background:rgba(251,248,242,0.94);backdrop-filter:blur(12px);border-top:1px solid #e8dfd0;display:flex;justify-content:center;z-index:10">
+    <div style="display:flex;width:100%;max-width:520px;padding:6px 8px 10px;gap:4px">
+      <sc-for list="{{ navTabs }}" as="t" hint-placeholder-count="4">
+        <button onClick="{{ t.onClick }}" style="flex:1;background:{{ t.pillBg }};border:none;border-radius:12px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;min-height:52px;color:{{ t.color }}">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{ t.icon }}"></path></svg>
+          <span style="font-size:11px;font-weight:{{ t.weight }};letter-spacing:0.02em">{{ t.label }}</span>
+        </button>
+      </sc-for>
+    </div>
+  </nav>
+</sc-if>
+
+<sc-if value="{{ loading }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:60px 24px;text-align:center;color:#8a7f70;font-size:13px">Loading plan…</div>
+</sc-if>
+<sc-if value="{{ error }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:40px 24px;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:oklch(0.45 0.14 28);line-height:1.6">{{ error }}</div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844},&quot;startDate&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;2026-06-29&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Plan&quot;},&quot;dailyGoalHours&quot;:{&quot;editor&quot;:&quot;float&quot;,&quot;default&quot;:6,&quot;min&quot;:1,&quot;max&quot;:12,&quot;step&quot;:0.5,&quot;unit&quot;:&quot;h&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Plan&quot;}}">
+class Component extends DCLogic {
+  state = { plan: null, progress: {}, tab: 'today', error: null };
+
+  async componentDidMount() {
+    try {
+      this.core = await import(new URL('tracker-core.js', location.href).href);
+      const res = await fetch(new URL('plan-data.json', location.href).href);
+      if (!res.ok) throw new Error('Could not load plan-data.json (' + res.status + ')');
+      const data = await res.json();
+      this.setState({ plan: data.strategicCareerMapping, progress: this.core.loadProgress() });
+    } catch (e) {
+      this.setState({ error: 'Failed to load plan: ' + (e && e.message ? e.message : e) });
+    }
+  }
+
+  todayDate() { const d = new Date(); d.setHours(0, 0, 0, 0); return d; }
+  fmtH(h) { return String(Math.round(h * 4) / 4) + 'h'; }
+
+  updateBlock(i, v) {
+    const core = this.core, key = core.keyOf(this.todayDate());
+    const progress = { ...this.state.progress };
+    const prev = progress[key] || {};
+    const blocks = (prev.blocks || [0, 0, 0, 0]).slice();
+    blocks[i] = v;
+    progress[key] = { ...prev, blocks };
+    core.saveProgress(progress);
+    this.setState({ progress });
+  }
+
+  setFromEvent(e, i, planned) {
+    const r = e.currentTarget.getBoundingClientRect();
+    const f = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+    this.updateBlock(i, Math.round(f * planned * 4) / 4);
+  }
+
+  renderVals() {
+    const core = this.core, plan = this.state.plan;
+    if (!plan || !core) return { ready: false, loading: !this.state.error, error: this.state.error || false };
+
+    // per-cadence-block hues: english=blue, history=terracotta, literary=violet, output=green
+    const HUES = [250, 40, 310, 150];
+    const ICONS = [
+      'M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z',
+      'M3 21h18M4 18h16M6 18v-7M10 18v-7M14 18v-7M18 18v-7M12 3 3 8h18Z',
+      'M2 4h6a4 4 0 0 1 4 4v12a3 3 0 0 0-3-3H2zM22 4h-6a4 4 0 0 0-4 4v12a3 3 0 0 1 3-3h6z',
+      'M12 2 2 7l10 5 10-5-10-5ZM2 17l10 5 10-5M2 12l10 5 10-5',
+    ];
+    const solid = (h) => 'oklch(0.55 0.14 ' + h + ')';
+    const fill = (h) => 'oklch(0.75 0.1 ' + h + ')';
+    const tintBg = (h) => 'oklch(0.975 0.012 ' + h + ')';
+    const tintBorder = (h) => 'oklch(0.88 0.045 ' + h + ')';
+    const track = (h) => 'oklch(0.93 0.025 ' + h + ')';
+
+    const TONES = {
+      ahead: { bg: 'oklch(0.93 0.05 155)', fg: 'oklch(0.4 0.1 155)' },
+      ok: { bg: 'oklch(0.93 0.05 130)', fg: 'oklch(0.42 0.09 130)' },
+      warn: { bg: 'oklch(0.94 0.06 80)', fg: 'oklch(0.48 0.1 70)' },
+      behind: { bg: 'oklch(0.93 0.05 28)', fg: 'oklch(0.45 0.14 28)' },
+      neutral: { bg: '#eee7da', fg: '#6b6154' },
+    };
+
+    const goal = +(this.props.dailyGoalHours ?? 6);
+    const start = core.parseDate(this.props.startDate ?? '2026-06-29');
+    const today = this.todayDate();
+    const end = core.addMonths(start, 6);
+    const lastDay = new Date(end.getTime() - 86400000);
+    const progress = this.state.progress;
+    const key = core.keyOf(today);
+    const rec = progress[key] || { blocks: [0, 0, 0, 0], task: false };
+    const cadence = plan.masterCurriculum.dailyOperationalCadence;
+    const mi = core.monthIndexFor(start, today);
+    const month = plan.masterCurriculum.months[mi];
+    const inPlan = today >= start && today <= lastDay;
+    const isRestDay = inPlan && !core.isStudyDay(today);
+
+    const yday = new Date(today.getTime() - 86400000);
+    const paceEnd = yday < start ? null : (yday < lastDay ? yday : lastDay);
+    const expected = paceEnd ? core.studyDaysBetween(start, paceEnd) * goal : 0;
+    const totLogged = core.sumRange(progress, start, today);
+    const status = core.statusFor(totLogged, expected);
+    const tone = TONES[status.tone];
+
+    const monday = new Date(today); monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
+    const weekFrom = monday < start ? start : monday;
+    const sunday = new Date(monday.getTime() + 6 * 86400000);
+    const weekLogged = core.sumRange(progress, weekFrom, today);
+    const weekPlanned = core.studyDaysBetween(weekFrom, sunday < lastDay ? sunday : lastDay) * goal;
+
+    const mw = core.monthWindow(start, mi);
+    const mTo = mw.to < lastDay ? mw.to : lastDay;
+    const mLogged = core.sumRange(progress, mw.from, mTo < today ? mTo : today);
+    const mPlanned = core.studyDaysBetween(mw.from, mTo) * goal;
+
+    const totPlanned = core.studyDaysBetween(start, lastDay) * goal;
+    const totDays = core.studyDaysBetween(start, lastDay);
+    const dayNum = today >= start ? Math.min(core.studyDaysBetween(start, today), totDays) : 0;
+    const todayHours = core.dayHours(rec);
+    const streak = core.streakOf(progress, today, start);
+
+    const fmtD = (d) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+
+    const blocks = cadence.map((c, i) => {
+      const h = HUES[i % 4];
+      const planned = parseFloat(c.duration);
+      const logged = +((rec.blocks || [])[i] || 0);
+      const done = logged >= planned;
+      return {
+        cat: c.category, time: c.timeWindow + ' · ' + c.duration, desc: c.description,
+        icon: ICONS[i % 4], chipBg: solid(h),
+        cardBg: tintBg(h), cardBorder: tintBorder(h), trackBg: track(h), fillColor: fill(h),
+        plannedLabel: this.fmtH(planned),
+        loggedLabel: logged > 0 ? this.fmtH(logged) : '0h',
+        fillPct: Math.min(100, (logged / planned) * 100),
+        doneLabel: done ? 'Logged ✓' : 'Mark full',
+        doneBorder: done ? solid(h) : tintBorder(h),
+        doneBg: done ? solid(h) : '#fffdf8',
+        doneFg: done ? '#fff' : '#4a3f31',
+        onDown: (e) => { e.currentTarget.setPointerCapture(e.pointerId); this._drag = i; this.setFromEvent(e, i, planned); },
+        onMove: (e) => { if (this._drag === i) this.setFromEvent(e, i, planned); },
+        onUp: () => { this._drag = null; },
+        markFull: () => this.updateBlock(i, done ? 0 : planned),
+      };
+    });
+
+    const segs = cadence.map((c, i) => ({
+      w: Math.min(100, ((+((rec.blocks || [])[i] || 0)) / goal) * 100),
+      color: solid(HUES[i % 4]),
+    }));
+
+    const MONTH_HUES = [250, 40, 310, 150, 80, 200];
+    const months = plan.masterCurriculum.months.map((m, i) => {
+      const w = core.monthWindow(start, i);
+      const wTo = w.to < today ? w.to : today;
+      const logged = wTo >= w.from ? core.sumRange(progress, w.from, wTo) : 0;
+      const planned = core.studyDaysBetween(w.from, w.to) * goal;
+      const past = i < mi;
+      const isCurrent = i === mi;
+      const h = MONTH_HUES[i % 6];
+      return {
+        title: m.title, goal: m.goal,
+        nodeLabel: past ? '✓' : String(i + 1),
+        nodeBg: past ? solid(h) : (isCurrent ? '#fffdf8' : tintBg(h)),
+        nodeFg: past ? '#fff' : (isCurrent ? solid(h) : 'oklch(0.7 0.06 ' + h + ')'),
+        nodeBorder: past || isCurrent ? solid(h) : tintBorder(h),
+        barColor: solid(h),
+        titleColor: i > mi ? '#a89b86' : '#211b14',
+        showLine: i < plan.masterCurriculum.months.length - 1,
+        isCurrent,
+        range: fmtD(w.from) + ' – ' + fmtD(w.to),
+        loggedLabel: this.fmtH(logged), plannedLabel: this.fmtH(planned),
+        pct: planned ? Math.min(100, Math.round((logged / planned) * 100)) : 0,
+        focus: [
+          { k: 'English', v: m.focusAreas.englishMechanics, color: solid(250) },
+          { k: 'Art history', v: m.focusAreas.artHistory, color: solid(40) },
+          { k: 'Literature', v: m.focusAreas.literature, color: solid(310) },
+        ],
+      };
+    });
+
+    const PATH_HUES = [250, 40, 150];
+    const gh = core.groupHours(progress);
+    const paths = plan.careerPaths.map((p, pi) => {
+      const ph = PATH_HUES[pi % 3];
+      const counts = {};
+      p.skillMatrix.forEach((s) => { const g = core.groupOf(s.skill); counts[g] = (counts[g] || 0) + 1; });
+      const skills = p.skillMatrix.map((s) => {
+        const g = core.groupOf(s.skill);
+        const invested = (gh[g] || 0) / counts[g];
+        const b2 = core.parseHours(s.competentB2), c1 = core.parseHours(s.advancedC1), c2 = core.parseHours(s.outstandingC2);
+        const target = c2 || 0;
+        let level = b2 == null ? 'already competent' : 'toward B2';
+        if (b2 != null && invested >= b2) level = 'B2 reached';
+        if (c1 != null && invested >= c1) level = 'C1 reached';
+        if (target && invested >= target) level = 'C2 reached';
+        return {
+          name: s.skill, necessity: s.necessity,
+          fill: target ? Math.min(100, Math.round((invested / target) * 1000) / 10) : 0,
+          invested: Math.round(invested) + 'h',
+          levelLabel: level,
+          targetLabel: target ? target + 'h to C2' : '',
+          hasTickB2: !!(b2 && target && b2 < target), tickB2: b2 && target ? Math.round((b2 / target) * 100) : 0,
+          hasTickC1: !!(c1 && target && c1 < target), tickC1: c1 && target ? Math.round((c1 / target) * 100) : 0,
+          barColor: s.necessity === 'Mandatory' ? solid(ph) : fill(ph),
+        };
+      });
+      return { title: p.title, description: p.description, scoreLabel: p.overallMatchScore + '% match', skills, accent: solid(ph), border: tintBorder(ph) };
+    });
+
+    const RING_DEFS = [
+      { label: 'Today', hue: 45, icon: 'M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10ZM12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4' },
+      { label: 'This week', hue: 250, icon: 'M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z' },
+      { label: 'Month ' + (mi + 1), hue: 150, icon: 'M4 22V4c1.5-1 3-1.5 5-1.5 3 0 4.5 1.5 7 1.5 1.6 0 3-.3 4-1v11c-1 .7-2.4 1-4 1-2.5 0-4-1.5-7-1.5-2 0-3.5.5-5 1.5' },
+      { label: 'Whole plan', hue: 310, icon: 'M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 15v2c0 .55-.45 1-1 1s-2 1.5-2 4M14 15v2c0 .55.45 1 1 1s2 1.5 2 4M18 2H6v7a6 6 0 0 0 12 0V2Z' },
+    ];
+    const ringData = [[todayHours, goal], [weekLogged, weekPlanned], [mLogged, mPlanned], [totLogged, totPlanned]];
+    const rings = RING_DEFS.map((r, i) => {
+      const [logged, planned] = ringData[i];
+      const pct = planned > 0 ? Math.min(100, Math.round((logged / planned) * 100)) : 0;
+      return {
+        label: r.label, icon: r.icon, pctLabel: pct + '%', deg: Math.round(pct * 3.6),
+        sub: this.fmtH(logged) + ' of ' + this.fmtH(planned),
+        color: solid(r.hue), cardBg: tintBg(r.hue), cardBorder: tintBorder(r.hue),
+      };
+    });
+
+    const expTo = (from, to) => {
+      if (!paceEnd || paceEnd < from) return 0;
+      return core.studyDaysBetween(from, paceEnd < to ? paceEnd : to) * goal;
+    };
+    const mkPace = (label, logged, exp) => {
+      const st = core.statusFor(logged, exp);
+      const t = TONES[st.tone];
+      return { label, detail: this.fmtH(logged) + ' logged · ' + this.fmtH(exp) + ' expected by now', status: st.label, bg: t.bg, fg: t.fg };
+    };
+
+    const TAB_DEFS = [
+      ['today', 'Today', 45, 'M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10ZM12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4'],
+      ['journey', 'Journey', 250, 'M9 18l-6 3V6l6-3 6 3 6-3v15l-6 3-6-3ZM9 3v15M15 6v15'],
+      ['paths', 'Paths', 150, 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20ZM16 8l-2.5 5.5L8 16l2.5-5.5Z'],
+      ['stats', 'Overview', 310, 'M3 3v18h18M8 17V9M13 17V5M18 17v-4'],
+    ];
+    const titles = { today: 'Today', journey: 'The Journey', paths: 'Career Paths', stats: 'Overview' };
+
+    return {
+      ready: true, loading: false, error: false,
+      dateLabel: today.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }).toUpperCase(),
+      viewTitle: titles[this.state.tab],
+      planPosition: today < start ? 'Starts ' + fmtD(start) : (today > lastDay ? 'Plan complete' : 'Day ' + dayNum + ' of ' + totDays + ' · Month ' + (mi + 1) + ' of 6'),
+      statusLabel: status.label, statusBg: tone.bg, statusFg: tone.fg,
+      streakLabel: streak > 0 ? streak + '-day streak' : 'No streak yet',
+      tabIsToday: this.state.tab === 'today',
+      tabIsJourney: this.state.tab === 'journey',
+      tabIsPaths: this.state.tab === 'paths',
+      tabIsStats: this.state.tab === 'stats',
+      todayHoursLabel: this.fmtH(todayHours), goalLabel: this.fmtH(goal),
+      monthLine: 'Month ' + (mi + 1) + ' · ' + month.title,
+      isRestDay,
+      blocks, segs,
+      dailyTask: month.dailyTask,
+      toggleTask: () => {
+        const p2 = { ...progress };
+        const prev = p2[key] || {};
+        p2[key] = { ...prev, blocks: prev.blocks || [0, 0, 0, 0], task: !prev.task };
+        core.saveProgress(p2);
+        this.setState({ progress: p2 });
+      },
+      taskBg: rec.task ? 'oklch(0.95 0.04 130)' : 'oklch(0.975 0.02 80)',
+      taskBorder: rec.task ? 'oklch(0.7 0.1 130)' : 'oklch(0.88 0.06 80)',
+      taskCheckBorder: rec.task ? 'oklch(0.5 0.1 140)' : 'oklch(0.75 0.08 80)',
+      taskCheckBg: rec.task ? 'oklch(0.5 0.1 140)' : 'transparent',
+      taskCheckMark: rec.task ? '✓' : '',
+      totLoggedLabel: this.fmtH(totLogged), totPlannedLabel: this.fmtH(totPlanned),
+      totPct: totPlanned ? Math.min(100, Math.round((totLogged / totPlanned) * 100)) : 0,
+      targetGoal: plan.contextProfile.targetGoal,
+      months, paths, rings,
+      paceRows: [
+        mkPace('This week', weekLogged, expTo(weekFrom, sunday)),
+        mkPace('This month', mLogged, expTo(mw.from, mw.to)),
+        mkPace('Whole plan', totLogged, expected),
+      ],
+      factRows: [
+        { k: 'Candidate', v: plan.contextProfile.candidate },
+        { k: 'Start', v: fmtD(start) + ' ' + start.getFullYear() },
+        { k: 'End', v: fmtD(lastDay) + ' ' + lastDay.getFullYear() },
+        { k: 'Rhythm', v: 'Mon–Fri · ' + this.fmtH(goal) + ' / day' },
+        { k: 'Total plan', v: this.fmtH(totPlanned) + ' across ' + totDays + ' study days' },
+      ],
+      navTabs: TAB_DEFS.map(([id, label, h, icon]) => {
+        const active = this.state.tab === id;
+        return {
+          label, icon,
+          onClick: () => this.setState({ tab: id }),
+          color: active ? solid(h) : '#a29684',
+          pillBg: active ? tintBg(h) : 'transparent',
+          weight: active ? 700 : 500,
+        };
+      }),
+      onSeed: () => { const p2 = core.seedDemo(start, today, cadence); core.saveProgress(p2); this.setState({ progress: p2 }); },
+      onReset: () => { if (confirm('Clear all logged progress?')) { core.saveProgress({}); this.setState({ progress: {} }); } },
+    };
+  }
+}
+</script>
+</body>
+</html>
