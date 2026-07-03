@@ -34,7 +34,7 @@
           {{ streakLabel }}
         </span>
         <span style="background:{{ statusBg }};color:{{ statusFg }};font-size:12px;font-weight:700;padding:6px 13px;border-radius:999px;white-space:nowrap">{{ statusLabel }}</span>
-        <a href="mobile.html" style="font-size:12.5px;font-weight:600;border:1px solid #d8ccb6;padding:8px 15px;border-radius:999px;color:#4a3f31;text-decoration:none;white-space:nowrap">Mobile version →</a>
+        <a href="{{ mobileHref }}" style="font-size:12.5px;font-weight:600;border:1px solid #d8ccb6;padding:8px 15px;border-radius:999px;color:#4a3f31;text-decoration:none;white-space:nowrap">Mobile version →</a>
         
       </div>
     </header>
@@ -144,7 +144,7 @@
       <div style="height:8px;border-radius:999px;background:#efe7d9;overflow:hidden">
         <div style="height:100%;width:{{ totPct }}%;border-radius:999px;background:linear-gradient(90deg,oklch(0.6 0.15 250),oklch(0.6 0.15 40))"></div>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:12px;align-items:stretch">
+      <div style="display:grid;grid-template-columns:repeat({{ monthCols }},1fr);gap:12px;align-items:stretch">
         <sc-for list="{{ months }}" as="m" hint-placeholder-count="6">
           <div style="background:{{ m.cardBg }};border:1px solid {{ m.cardBorder }};border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:9px">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
@@ -224,15 +224,18 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;startDate&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;2026-06-29&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Plan&quot;},&quot;dailyGoalHours&quot;:{&quot;editor&quot;:&quot;float&quot;,&quot;default&quot;:6,&quot;min&quot;:1,&quot;max&quot;:12,&quot;step&quot;:0.5,&quot;unit&quot;:&quot;h&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Plan&quot;}}">
 class Component extends DCLogic {
-  state = { plan: null, progress: {}, error: null };
+  state = { plan: null, config: {}, progress: {}, error: null };
 
   async componentDidMount() {
     try {
       this.core = await import(new URL('tracker-core.js', location.href).href);
-      const res = await fetch(new URL('plan-data.json', location.href).href);
-      if (!res.ok) throw new Error('Could not load plan-data.json (' + res.status + ')');
+      this.planId = new URLSearchParams(location.search).get('plan');
+      if (!this.planId) throw new Error('No plan specified. Open this page through a plan link, e.g. plans/melika/');
+      const res = await fetch(new URL('plans/' + this.planId + '/plan-data.json', location.href).href);
+      if (!res.ok) throw new Error('Could not load plans/' + this.planId + '/plan-data.json (' + res.status + ')');
       const data = await res.json();
-      this.setState({ plan: data.strategicCareerMapping, progress: this.core.loadProgress() });
+      const config = data.config || {};
+      this.setState({ plan: data.strategicCareerMapping, config, progress: this.core.loadProgress(this.planId, config.migrateLegacyStorage) });
     } catch (e) {
       this.setState({ error: 'Failed to load plan: ' + (e && e.message ? e.message : e) });
     }
@@ -245,10 +248,10 @@ class Component extends DCLogic {
     const core = this.core, key = core.keyOf(this.todayDate());
     const progress = { ...this.state.progress };
     const prev = progress[key] || {};
-    const blocks = (prev.blocks || [0, 0, 0, 0]).slice();
+    const blocks = (prev.blocks || []).slice();
     blocks[i] = v;
     progress[key] = { ...prev, blocks };
-    core.saveProgress(progress);
+    core.saveProgress(this.planId, progress);
     this.setState({ progress });
   }
 
@@ -283,16 +286,18 @@ class Component extends DCLogic {
       neutral: { bg: '#eee7da', fg: '#6b6154' },
     };
 
-    const goal = +(this.props.dailyGoalHours ?? 6);
-    const start = core.parseDate(this.props.startDate ?? '2026-06-29');
+    const cfg = this.state.config || {};
+    const goal = +(cfg.dailyGoalHours ?? this.props.dailyGoalHours ?? 6);
+    const start = core.parseDate(cfg.startDate ?? this.props.startDate ?? '2026-06-29');
+    const nMonths = plan.masterCurriculum.months.length;
     const today = this.todayDate();
-    const end = core.addMonths(start, 6);
+    const end = core.addMonths(start, nMonths);
     const lastDay = new Date(end.getTime() - 86400000);
     const progress = this.state.progress;
     const key = core.keyOf(today);
-    const rec = progress[key] || { blocks: [0, 0, 0, 0], task: false };
+    const rec = progress[key] || { blocks: [], task: false };
     const cadence = plan.masterCurriculum.dailyOperationalCadence;
-    const mi = core.monthIndexFor(start, today);
+    const mi = core.monthIndexFor(start, today, nMonths - 1);
     const month = plan.masterCurriculum.months[mi];
     const inPlan = today >= start && today <= lastDay;
     const isRestDay = inPlan && !core.isStudyDay(today);
@@ -378,13 +383,13 @@ class Component extends DCLogic {
     });
 
     const PATH_HUES = [250, 40, 150];
-    const gh = core.groupHours(progress);
+    const gh = core.groupHours(progress, cadence);
     const paths = plan.careerPaths.map((p, pi) => {
       const ph = PATH_HUES[pi % 3];
       const counts = {};
-      p.skillMatrix.forEach((s) => { const g = core.groupOf(s.skill); counts[g] = (counts[g] || 0) + 1; });
+      p.skillMatrix.forEach((s) => { const g = s.group || 'other'; counts[g] = (counts[g] || 0) + 1; });
       const skills = p.skillMatrix.map((s) => {
-        const g = core.groupOf(s.skill);
+        const g = s.group || 'other';
         const invested = (gh[g] || 0) / counts[g];
         const b2 = core.parseHours(s.competentB2), c1 = core.parseHours(s.advancedC1), c2 = core.parseHours(s.outstandingC2);
         const target = c2 || 0;
@@ -438,7 +443,7 @@ class Component extends DCLogic {
       dateLabel: today.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }).toUpperCase(),
       candidate: plan.contextProfile.candidate,
       targetGoal: plan.contextProfile.targetGoal,
-      planPosition: today < start ? 'Starts ' + fmtD(start) : (today > lastDay ? 'Plan complete' : 'Day ' + dayNum + ' of ' + totDays + ' · Month ' + (mi + 1) + ' of 6'),
+      planPosition: today < start ? 'Starts ' + fmtD(start) : (today > lastDay ? 'Plan complete' : 'Day ' + dayNum + ' of ' + totDays + ' · Month ' + (mi + 1) + ' of ' + nMonths),
       statusLabel: status.label, statusBg: tone.bg, statusFg: tone.fg,
       streakLabel: streak > 0 ? streak + '-day streak' : 'No streak yet',
       todayHoursLabel: this.fmtH(todayHours), goalLabel: this.fmtH(goal),
@@ -449,8 +454,8 @@ class Component extends DCLogic {
       toggleTask: () => {
         const p2 = { ...progress };
         const prev = p2[key] || {};
-        p2[key] = { ...prev, blocks: prev.blocks || [0, 0, 0, 0], task: !prev.task };
-        core.saveProgress(p2);
+        p2[key] = { ...prev, blocks: prev.blocks || [], task: !prev.task };
+        core.saveProgress(this.planId, p2);
         this.setState({ progress: p2 });
       },
       taskBg: rec.task ? 'oklch(0.95 0.04 130)' : 'oklch(0.975 0.02 80)',
@@ -461,12 +466,10 @@ class Component extends DCLogic {
       totLoggedLabel: this.fmtH(totLogged), totPlannedLabel: this.fmtH(totPlanned),
       totPct: totPlanned ? Math.min(100, Math.round((totLogged / totPlanned) * 100)) : 0,
       months, paths, rings,
+      monthCols: nMonths,
+      mobileHref: 'mobile.html?plan=' + this.planId,
       currentMonthTitle: month.title,
-      currentFocus: [
-        { k: 'English', v: month.focusAreas.englishMechanics, color: solid(250) },
-        { k: 'Art history', v: month.focusAreas.artHistory, color: solid(40) },
-        { k: 'Literature', v: month.focusAreas.literature, color: solid(310) },
-      ],
+      currentFocus: (month.focusAreas || []).map((f, i) => ({ k: f.label, v: f.text, color: solid([250, 40, 310, 150][i % 4]) })),
       paceRows: [
         mkPace('This week', weekLogged, expTo(weekFrom, sunday)),
         mkPace('This month', mLogged, expTo(mw.from, mw.to)),
@@ -479,8 +482,8 @@ class Component extends DCLogic {
         { k: 'Rhythm', v: 'Mon–Fri · ' + this.fmtH(goal) + ' / day' },
         { k: 'Total plan', v: this.fmtH(totPlanned) + ' across ' + totDays + ' study days' },
       ],
-      onSeed: () => { const p2 = core.seedDemo(start, today, cadence); core.saveProgress(p2); this.setState({ progress: p2 }); },
-      onReset: () => { if (confirm('Clear all logged progress?')) { core.saveProgress({}); this.setState({ progress: {} }); } },
+      onSeed: () => { const p2 = core.seedDemo(start, today, cadence); core.saveProgress(this.planId, p2); this.setState({ progress: p2 }); },
+      onReset: () => { if (confirm('Clear all logged progress?')) { core.saveProgress(this.planId, {}); this.setState({ progress: {} }); } },
     };
   }
 }

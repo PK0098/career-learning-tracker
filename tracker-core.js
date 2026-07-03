@@ -1,7 +1,8 @@
 // tracker-core.js — shared schedule math + localStorage persistence
-// Used by both Tracker Mobile.dc.html and Tracker Desktop.dc.html
+// Used by desktop.html and mobile.html; one plan per plans/<planId>/ folder.
 
-export const LS_PROGRESS = 'clt.progress.v1';
+export const LS_LEGACY = 'clt.progress.v1'; // pre-multi-plan key (single-plan era)
+export const keyFor = (planId) => 'clt.' + planId + '.progress.v1';
 
 const pad = (n) => String(n).padStart(2, '0');
 export const keyOf = (d) => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
@@ -23,17 +24,25 @@ export function monthWindow(start, i) {
   return { from: addMonths(start, i), to: new Date(addMonths(start, i + 1).getTime() - 86400000) };
 }
 
-export function monthIndexFor(start, today) {
+export function monthIndexFor(start, today, maxIdx) {
   let mi = (today.getFullYear() - start.getFullYear()) * 12 + (today.getMonth() - start.getMonth());
   if (today.getDate() < start.getDate()) mi--;
-  return Math.max(0, Math.min(5, mi));
+  return Math.max(0, Math.min(maxIdx, mi));
 }
 
-// ---- persistence ----
-export function loadProgress() {
-  try { return JSON.parse(localStorage.getItem(LS_PROGRESS)) || {}; } catch (e) { return {}; }
+// ---- persistence (one localStorage key per plan; all plans share the origin) ----
+export function loadProgress(planId, migrateLegacy) {
+  const key = keyFor(planId);
+  try {
+    let raw = localStorage.getItem(key);
+    if (raw == null && migrateLegacy) {
+      raw = localStorage.getItem(LS_LEGACY);
+      if (raw != null) { localStorage.setItem(key, raw); localStorage.removeItem(LS_LEGACY); }
+    }
+    return JSON.parse(raw) || {};
+  } catch (e) { return {}; }
 }
-export function saveProgress(p) { localStorage.setItem(LS_PROGRESS, JSON.stringify(p)); }
+export function saveProgress(planId, p) { localStorage.setItem(keyFor(planId), JSON.stringify(p)); }
 
 // One record per day: { blocks: [h,h,h,h], task: bool }
 export function dayHours(rec) { return rec && rec.blocks ? rec.blocks.reduce((a, b) => a + (+b || 0), 0) : 0; }
@@ -65,20 +74,13 @@ export function streakOf(progress, today, start) {
 }
 
 // ---- career-path skill attribution ----
-// Each daily cadence block feeds a skill group; logged hours flow to matching skills.
-export const BLOCK_GROUPS = ['english', 'art', 'english', 'craft'];
-
-export function groupOf(skillName) {
-  const n = String(skillName).toLowerCase();
-  if (n.includes('english') || n.includes('rhetoric')) return 'english';
-  if (n.includes('art') || n.includes('history') || n.includes('theory')) return 'art';
-  return 'craft';
-}
-
-export function groupHours(progress) {
-  const g = { english: 0, art: 0, craft: 0 };
+// Each daily cadence block declares a `group` in plan-data.json; logged hours
+// flow to the skills that declare the same group.
+export function groupHours(progress, cadence) {
+  const g = {};
   Object.values(progress).forEach((rec) => (rec.blocks || []).forEach((h, i) => {
-    g[BLOCK_GROUPS[i] || 'craft'] += +h || 0;
+    const grp = (cadence[i] && cadence[i].group) || 'other';
+    g[grp] = (g[grp] || 0) + (+h || 0);
   }));
   return g;
 }

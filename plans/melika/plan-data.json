@@ -1,4 +1,10 @@
 {
+  "config": {
+    "planId": "melika",
+    "startDate": "2026-06-29",
+    "dailyGoalHours": 6,
+    "migrateLegacyStorage": true
+  },
   "strategicCareerMapping": {
     "contextProfile": {
       "candidate": "Melika Safaei",
@@ -35,8 +41,13 @@
             "competentB2": "50 hrs",
             "advancedC1": "150 hrs",
             "outstandingC2": "300 hrs",
-            "supportedRoles": ["Critic", "Curator", "Comms"],
-            "score": "10/10"
+            "supportedRoles": [
+              "Critic",
+              "Curator",
+              "Comms"
+            ],
+            "score": "10/10",
+            "group": "english"
           },
           {
             "skill": "Contemporary Art Theory",
@@ -44,8 +55,12 @@
             "competentB2": "40 hrs",
             "advancedC1": "100 hrs",
             "outstandingC2": "200 hrs",
-            "supportedRoles": ["Critic", "Curator"],
-            "score": "9/10"
+            "supportedRoles": [
+              "Critic",
+              "Curator"
+            ],
+            "score": "9/10",
+            "group": "art"
           },
           {
             "skill": "Investigative Journalism",
@@ -53,8 +68,11 @@
             "competentB2": "30 hrs",
             "advancedC1": "80 hrs",
             "outstandingC2": "150 hrs",
-            "supportedRoles": ["Critic"],
-            "score": "8/10"
+            "supportedRoles": [
+              "Critic"
+            ],
+            "score": "8/10",
+            "group": "craft"
           },
           {
             "skill": "SEO & Digital Formatting",
@@ -62,8 +80,12 @@
             "competentB2": "10 hrs",
             "advancedC1": "30 hrs",
             "outstandingC2": "50 hrs",
-            "supportedRoles": ["Critic", "Comms"],
-            "score": "6/10"
+            "supportedRoles": [
+              "Critic",
+              "Comms"
+            ],
+            "score": "6/10",
+            "group": "craft"
           }
         ]
       },
@@ -79,8 +101,12 @@
             "competentB2": "60 hrs",
             "advancedC1": "160 hrs",
             "outstandingC2": "250 hrs",
-            "supportedRoles": ["Curator", "Critic"],
-            "score": "10/10"
+            "supportedRoles": [
+              "Curator",
+              "Critic"
+            ],
+            "score": "10/10",
+            "group": "art"
           },
           {
             "skill": "Pedagogical/Academic English",
@@ -88,8 +114,12 @@
             "competentB2": "50 hrs",
             "advancedC1": "150 hrs",
             "outstandingC2": "280 hrs",
-            "supportedRoles": ["Curator", "Critic"],
-            "score": "9/10"
+            "supportedRoles": [
+              "Curator",
+              "Critic"
+            ],
+            "score": "9/10",
+            "group": "english"
           },
           {
             "skill": "Spatial Design (Blender)",
@@ -97,8 +127,11 @@
             "competentB2": "Already Competent",
             "advancedC1": "30 hrs",
             "outstandingC2": "80 hrs",
-            "supportedRoles": ["Curator"],
-            "score": "8/10"
+            "supportedRoles": [
+              "Curator"
+            ],
+            "score": "8/10",
+            "group": "craft"
           },
           {
             "skill": "Grant Writing & Logistics",
@@ -106,8 +139,12 @@
             "competentB2": "30 hrs",
             "advancedC1": "80 hrs",
             "outstandingC2": "140 hrs",
-            "supportedRoles": ["Curator", "Comms"],
-            "score": "7/10"
+            "supportedRoles": [
+              "Curator",
+              "Comms"
+            ],
+            "score": "7/10",
+            "group": "craft"
           }
         ]
       },
@@ -123,8 +160,11 @@
             "competentB2": "Already Advanced",
             "advancedC1": "40 hrs",
             "outstandingC2": "100 hrs",
-            "supportedRoles": ["Comms"],
-            "score": "10/10"
+            "supportedRoles": [
+              "Comms"
+            ],
+            "score": "10/10",
+            "group": "craft"
           },
           {
             "skill": "Diplomatic/Corporate English",
@@ -132,8 +172,12 @@
             "competentB2": "50 hrs",
             "advancedC1": "140 hrs",
             "outstandingC2": "260 hrs",
-            "supportedRoles": ["Comms", "Curator"],
-            "score": "9/10"
+            "supportedRoles": [
+              "Comms",
+              "Curator"
+            ],
+            "score": "9/10",
+            "group": "english"
           },
           {
             "skill": "Cross-Cultural Media Relations",
@@ -141,8 +185,12 @@
             "competentB2": "30 hrs",
             "advancedC1": "90 hrs",
             "outstandingC2": "150 hrs",
-            "supportedRoles": ["Comms", "Critic"],
-            "score": "8/10"
+            "supportedRoles": [
+              "Comms",
+              "Critic"
+            ],
+            "score": "8/10",
+            "group": "craft"
           },
           {
             "skill": "Data Analytics & Reporting",
@@ -150,8 +198,11 @@
             "competentB2": "20 hrs",
             "advancedC1": "50 hrs",
             "outstandingC2": "90 hrs",
-            "supportedRoles": ["Comms"],
-            "score": "6/10"
+            "supportedRoles": [
+              "Comms"
+            ],
+            "score": "6/10",
+            "group": "craft"
           }
         ]
       }
@@ -162,25 +213,29 @@
           "timeWindow": "09:00 - 10:30",
           "duration": "1.5h",
           "category": "Structural Mechanics (English)",
-          "description": "Grammar drills, vocabulary expansion, active syntax mapping. Transitioning B2 -> C1 -> C2."
+          "description": "Grammar drills, vocabulary expansion, active syntax mapping. Transitioning B2 -> C1 -> C2.",
+          "group": "english"
         },
         {
           "timeWindow": "10:30 - 12:30",
           "duration": "2.0h",
           "category": "Cultural History Acquisition",
-          "description": "Reading core art history texts, taking visual notes."
+          "description": "Reading core art history texts, taking visual notes.",
+          "group": "art"
         },
         {
           "timeWindow": "13:30 - 15:00",
           "duration": "1.5h",
           "category": "Literary Immersion",
-          "description": "High-level English reading to absorb natural rhythm, advanced phrasing, and diplomatic tone."
+          "description": "High-level English reading to absorb natural rhythm, advanced phrasing, and diplomatic tone.",
+          "group": "english"
         },
         {
           "timeWindow": "15:00 - 16:00",
           "duration": "1.0h",
           "category": "Output & Synthesis",
-          "description": "Writing essays, critiques, or press releases based on the day's intake."
+          "description": "Writing essays, critiques, or press releases based on the day's intake.",
+          "group": "craft"
         }
       ],
       "months": [
@@ -188,66 +243,120 @@
           "month": 1,
           "title": "Antiquity, Foundations, and The B2-C1 Bridge",
           "goal": "Solidify C1 grammar foundations; understand the basics of Western/Global art up to the Middle Ages.",
-          "focusAreas": {
-            "englishMechanics": "Destination B2/C1 by Malcolm Mann. Focus on eliminating B2 errors, mastering phrasal verbs, and complex conditionals. (1 unit/day).",
-            "artHistory": "The Story of Art by E.H. Gombrich (Chapters 1-10). The Short Story of Art by Susie Hodge (for quick visual referencing).",
-            "literature": "Animal Farm & 1984 by George Orwell (Clear, powerful syntax)."
-          },
+          "focusAreas": [
+            {
+              "label": "English",
+              "text": "Destination B2/C1 by Malcolm Mann. Focus on eliminating B2 errors, mastering phrasal verbs, and complex conditionals. (1 unit/day)."
+            },
+            {
+              "label": "Art history",
+              "text": "The Story of Art by E.H. Gombrich (Chapters 1-10). The Short Story of Art by Susie Hodge (for quick visual referencing)."
+            },
+            {
+              "label": "Literature",
+              "text": "Animal Farm & 1984 by George Orwell (Clear, powerful syntax)."
+            }
+          ],
           "dailyTask": "Read 25 pages of Gombrich. Write a 300-word daily summary of the art era using 5 new B2/C1 vocabulary words."
         },
         {
           "month": 2,
           "title": "The Renaissance & Sprawling Ambition",
           "goal": "Reach solid C1 writing fluency; map the explosion of the Early to High Renaissance.",
-          "focusAreas": {
-            "englishMechanics": "English Collocations in Use: Advanced (Cambridge). Focus on natural word pairings to sound less \"translated.\"",
-            "artHistory": "Ways of Seeing by John Berger (to introduce critical, non-boring analysis). SmartHistory online modules (Renaissance).",
-            "literature": "The Picture of Dorian Gray by Oscar Wilde (Rich, aesthetic vocabulary)."
-          },
+          "focusAreas": [
+            {
+              "label": "English",
+              "text": "English Collocations in Use: Advanced (Cambridge). Focus on natural word pairings to sound less \"translated.\""
+            },
+            {
+              "label": "Art history",
+              "text": "Ways of Seeing by John Berger (to introduce critical, non-boring analysis). SmartHistory online modules (Renaissance)."
+            },
+            {
+              "label": "Literature",
+              "text": "The Picture of Dorian Gray by Oscar Wilde (Rich, aesthetic vocabulary)."
+            }
+          ],
           "dailyTask": "Read 1 chapter of Berger or 30 pages of literature. Write a 500-word critical comparison of two Renaissance pieces (e.g., Da Vinci vs. Michelangelo)."
         },
         {
           "month": 3,
           "title": "Baroque Drama & The C1-C2 Transition",
           "goal": "Begin C2 preparation (nuance, tone, sophisticated inversions); study Baroque, Rococo, and Romanticism.",
-          "focusAreas": {
-            "englishMechanics": "Destination C1 & C2. Focus on inversions, cleft sentences, and advanced passive structures.",
-            "artHistory": "The Story of Art (Chapters 15-22). Caravaggio: A Life Sacred and Profane by Andrew Graham-Dixon (Narrative history).",
-            "literature": "Frankenstein by Mary Shelley or Great Expectations by Charles Dickens."
-          },
+          "focusAreas": [
+            {
+              "label": "English",
+              "text": "Destination C1 & C2. Focus on inversions, cleft sentences, and advanced passive structures."
+            },
+            {
+              "label": "Art history",
+              "text": "The Story of Art (Chapters 15-22). Caravaggio: A Life Sacred and Profane by Andrew Graham-Dixon (Narrative history)."
+            },
+            {
+              "label": "Literature",
+              "text": "Frankenstein by Mary Shelley or Great Expectations by Charles Dickens."
+            }
+          ],
           "dailyTask": "Read 30 pages of narrative history/literature. Draft a weekly \"Crisis PR statement\" for a controversial historical art event (leveraging your Digikala background)."
         },
         {
           "month": 4,
           "title": "Impressionism, Modernism, and Fragmentation",
           "goal": "Deepen C2 idiomatic knowledge; understand the break from tradition in the 19th/20th centuries.",
-          "focusAreas": {
-            "englishMechanics": "Objective Proficiency (C2) (Cambridge). Focus on idiomatic expressions, nuanced adverbs, and tone shifting.",
-            "artHistory": "The Private Lives of the Impressionists by Sue Roe. Shock of the New by Robert Hughes (Incredibly engaging, university-level but highly entertaining).",
-            "literature": "The Great Gatsby by F. Scott Fitzgerald and essays by Joan Didion."
-          },
+          "focusAreas": [
+            {
+              "label": "English",
+              "text": "Objective Proficiency (C2) (Cambridge). Focus on idiomatic expressions, nuanced adverbs, and tone shifting."
+            },
+            {
+              "label": "Art history",
+              "text": "The Private Lives of the Impressionists by Sue Roe. Shock of the New by Robert Hughes (Incredibly engaging, university-level but highly entertaining)."
+            },
+            {
+              "label": "Literature",
+              "text": "The Great Gatsby by F. Scott Fitzgerald and essays by Joan Didion."
+            }
+          ],
           "dailyTask": "Read 35 pages of Hughes/literature. Write a 600-word journalistic exhibition review of a Modernist movement, acting as a CivilNet correspondent."
         },
         {
           "month": 5,
           "title": "Contemporary Synthesis & The Global Stage",
           "goal": "Near-native professional fluency; grasp post-war, conceptual, and contemporary global art (including Middle Eastern/Armenian modern art).",
-          "focusAreas": {
-            "englishMechanics": "Advanced academic and diplomatic writing. Reading high-level publications (The New Yorker, Artforum, e-flux).",
-            "artHistory": "Art Since 1900 (Foster, Krauss, et al.) - selective reading. Research focus on Iranian/Armenian contemporary intersections.",
-            "literature": "White Teeth by Zadie Smith or contemporary Booker Prize winners."
-          },
+          "focusAreas": [
+            {
+              "label": "English",
+              "text": "Advanced academic and diplomatic writing. Reading high-level publications (The New Yorker, Artforum, e-flux)."
+            },
+            {
+              "label": "Art history",
+              "text": "Art Since 1900 (Foster, Krauss, et al.) - selective reading. Research focus on Iranian/Armenian contemporary intersections."
+            },
+            {
+              "label": "Literature",
+              "text": "White Teeth by Zadie Smith or contemporary Booker Prize winners."
+            }
+          ],
           "dailyTask": "Analyze 2 articles from Artforum daily. Write an 800-word curatorial proposal for an exhibition combining Armenian weavers and contemporary art (building on your current CivilNet article)."
         },
         {
           "month": 6,
           "title": "Capstone Output & C2 Mastery",
           "goal": "Finalize C2 mastery through massive output; build a professional portfolio bridging PR, Journalism, and Curation.",
-          "focusAreas": {
-            "englishMechanics": "Polish and refine. Take Mock C2 Proficiency exams (CPE) for objective benchmarking.",
-            "artHistory": "Focus strictly on independent research for your capstone project.",
-            "literature": "Dense, philosophical texts (e.g., essays by Susan Sontag, On Photography)."
-          },
+          "focusAreas": [
+            {
+              "label": "English",
+              "text": "Polish and refine. Take Mock C2 Proficiency exams (CPE) for objective benchmarking."
+            },
+            {
+              "label": "Art history",
+              "text": "Focus strictly on independent research for your capstone project."
+            },
+            {
+              "label": "Literature",
+              "text": "Dense, philosophical texts (e.g., essays by Susan Sontag, On Photography)."
+            }
+          ],
           "dailyTask": "Spend 4 hours daily researching, drafting, and editing a 5,000-word capstone project (e.g., A comprehensive international exhibition catalog, complete with PR strategy and critical essays)."
         }
       ]

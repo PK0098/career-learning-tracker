@@ -3,17 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Career &amp; Learning Tracker</title>
-<style>body { margin: 0; background: #fbf8f2; color: #8a7f70; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13px; text-align: center; padding-top: 60px; }</style>
-<script>
-  // Route to the layout that fits the device: small or touch-first screens
-  // get the mobile app, everything else the desktop dashboard.
-  var mobile = window.matchMedia('(max-width: 768px)').matches ||
-    (window.matchMedia('(pointer: coarse)').matches && window.matchMedia('(max-width: 1024px)').matches);
-  location.replace(mobile ? 'mobile.html' : 'desktop.html');
-</script>
+<title>Career &amp; Learning Trackers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..700&display=swap" rel="stylesheet" />
+<style>
+  body { margin: 0; background: #fbf8f2; color: #211b14; font-family: ui-sans-serif, system-ui, sans-serif; }
+  main { max-width: 520px; margin: 0 auto; padding: 60px 20px; display: flex; flex-direction: column; gap: 18px; }
+  h1 { margin: 0; font-family: 'Newsreader', Georgia, serif; font-weight: 600; font-size: 30px; }
+  p { margin: 0; font-size: 13px; color: #8a7f70; line-height: 1.5; }
+  a.plan { display: flex; justify-content: space-between; align-items: center; background: #fffdf8; border: 1px solid #eadfce; border-radius: 16px; padding: 18px; text-decoration: none; color: inherit; }
+  a.plan:hover { border-color: #d8ccb6; }
+  a.plan .name { font-weight: 700; font-size: 15px; }
+  a.plan .sub { font-size: 12px; color: #8a7f70; margin-top: 3px; }
+  a.plan .arrow { color: #8a7f70; font-size: 18px; }
+</style>
 </head>
 <body>
-<p>Loading tracker… <a href="desktop.html">desktop</a> · <a href="mobile.html">mobile</a></p>
+<main>
+  <h1>Career &amp; Learning Trackers</h1>
+  <p>Each plan has its own page and keeps its own progress in this browser. Open yours and bookmark it.</p>
+  <a class="plan" href="plans/melika/">
+    <span><span class="name">Melika</span><br><span class="sub">C2 English · Global Art History · 6 months</span></span>
+    <span class="arrow">→</span>
+  </a>
+</main>
 </body>
 </html>

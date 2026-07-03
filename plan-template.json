@@ -1,0 +1,58 @@
+{
+  "config": {
+    "planId": "REPLACE-short-lowercase-slug (becomes the folder name and URL: plans/<planId>/)",
+    "startDate": "2026-08-03 (YYYY-MM-DD; the plan's day 1)",
+    "dailyGoalHours": 6
+  },
+  "strategicCareerMapping": {
+    "contextProfile": {
+      "candidate": "Full Name (shown in the header)",
+      "targetGoal": "One-line end goal (shown in the header and Journey tab)",
+      "currentRoles": ["Optional background info, not rendered"],
+      "previousExperience": ["Optional"],
+      "education": "Optional",
+      "startingPoint": "Optional"
+    },
+    "careerPaths": [
+      {
+        "id": "path_1",
+        "title": "Path title (1-3 paths; 3 fits the desktop layout best)",
+        "description": "2-3 sentence pitch for this career path.",
+        "overallMatchScore": 95,
+        "skillMatrix": [
+          {
+            "skill": "Skill name (3-4 skills per path)",
+            "group": "core (must match the `group` of at least one daily block below; logged hours flow from blocks to skills through this)",
+            "necessity": "Mandatory | Highly Valued | Auxiliary (Mandatory renders a stronger bar)",
+            "competentB2": "50 hrs (first milestone tick; or 'Already Competent' for no tick)",
+            "advancedC1": "150 hrs (second milestone tick)",
+            "outstandingC2": "300 hrs (the bar's 100% target)"
+          }
+        ]
+      }
+    ],
+    "masterCurriculum": {
+      "dailyOperationalCadence": [
+        {
+          "timeWindow": "09:00 - 10:30",
+          "duration": "1.5h (durations of all blocks should sum to config.dailyGoalHours)",
+          "category": "Block name (2-6 blocks; each renders as a loggable card)",
+          "group": "core (which skill group these hours count toward)",
+          "description": "What happens in this block."
+        }
+      ],
+      "months": [
+        {
+          "month": 1,
+          "title": "Month theme (one entry per month; any count, 6 is typical)",
+          "goal": "What done looks like at the end of this month.",
+          "focusAreas": [
+            { "label": "Short label", "text": "Resources / books / modules for this area this month." },
+            { "label": "Another area", "text": "Any number of rows, any labels." }
+          ],
+          "dailyTask": "The daily deliverable sentence shown on the Today view."
+        }
+      ]
+    }
+  }
+}
